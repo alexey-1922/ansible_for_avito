@@ -1,0 +1,84 @@
+#Nginx install and configure
+- hosts: web
+  become: yes
+  become_method: sudo
+  vars:
+    path: "/etc/nginx/"
+    root: "/var/www/html/"
+  tasks:
+#1. Installing the required packages
+    - name: packages (Debian)
+      apt: name={{item}} state=latest update_cache=yes
+      with_items:
+        - nginx
+        - php
+        - php-fpm
+        - mysql-server
+        - php-mysql
+      when: ansible_os_family == "RedHat" or ansible_os_family == "Debian"
+      notify: "nginx systemd"
+    
+    - name: packages (RedHat)
+      yum: name={{item}} state=latest update_cache=yes
+      with_items:
+        - nginx
+        - php
+        - php-fpm
+        - mysql-server
+        - php-mysql
+      when: ansible_os_family == "RedHat"
+      notify: "nginx systemd"
+
+#2. Creating and editing a script file phpinfo
+    - name: touch phpinfo file 
+      file:
+        path: {{ root }}/index.php
+        state: touch
+
+    - name: phpinfo edit
+      blockinfile:
+        path: {{ root }}/index.php
+        block: |
+          <?php
+          phpinfo();
+          ?>
+
+#3. Creating and editing a vhost file, checking the syntax nginx (notification in case of an error)
+    - name: touch config file vhost
+      file:
+        path: {{ path }}/sites-available/phpinfo.conf
+        state: touch
+
+    - name: vhost configure
+      blockinfile:
+        path: {{ path }}/sites-available/phpinfo.conf
+        block: |
+          server {
+          listen *:80;
+          server_name example.ru;
+          root /var/www/html/;
+          index index.php index.html;
+          location / {}
+          }
+
+    - name: test config file vhost
+      command: 'nginx -t'
+      notify: "vhost activate"
+      register: result
+      ignore_errors: True
+
+    - name: Error message output
+      fail: msg="Please fix the errors in the configuration file {{ path }}/sites-available/phpinfo.conf before restarting the playbook"
+      when: result is failed
+#3. Activating the virtual host, rebooting the web server and adding it to the startup
+  handlers:
+    - name: enabling the new configuration vhost
+      command: 'ln -s {{ path }}/sites-available/phpinfo.conf {{ path }}/sites-enabled/phpinfo.conf'
+      listen: "vhost activate"
+
+    - name: restart and add to startup nginx
+      service: 
+        name: nginx 
+        enabled: yes 
+        state: restarted
+      listen: "nginx systemd"  
