@@ -15,7 +15,7 @@
         - php-fpm
         - mysql-server
         - php-mysql
-      when: ansible_os_family == "RedHat" or ansible_os_family == "Debian"
+      when: ansible_os_family == "Astra Linux" or ansible_os_family == "Debian"
       notify: "nginx systemd"
     
     - name: packages (RedHat)
