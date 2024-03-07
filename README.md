@@ -6,4 +6,4 @@
 
 ![] (https://tadviser.ru/images/7/7a/Logo-Ansible-%D0%94%D1%8E%D1%80%D1%85%D0%B5%D0%BC.png)
 
-![] (C:\Users\HP\Desktop\Netology\ansible_for_avito\Logo-Ansible-Дюрхем.png)
+![Markdown Logo](https://upload.wikimedia.org/wikipedia/commons/4/48/Markdown-mark.svg)
