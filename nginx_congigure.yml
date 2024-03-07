@@ -72,10 +72,16 @@
       when: result is failed
 #3. Activating the virtual host, rebooting the web server and adding it to the startup
   handlers:
+    - name: remove default nginx configuration
+      file:
+        path: {{ path }}/sites-enabled/default
+        state: absent
+      listen: "vhost activate"
+        
     - name: enabling the new configuration vhost
       command: 'ln -s {{ path }}/sites-available/phpinfo.conf {{ path }}/sites-enabled/phpinfo.conf'
       listen: "vhost activate"
-
+    
     - name: restart and add to startup nginx
       service: 
         name: nginx 
