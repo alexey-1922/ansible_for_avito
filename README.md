@@ -4,6 +4,5 @@
 # Запуск playbooks
 Запуск playbooks выполняется командой ansible-playbook, например: ansible-playbook nginx_congigure.yml
 
-![] (https://tadviser.ru/images/7/7a/Logo-Ansible-%D0%94%D1%8E%D1%80%D1%85%D0%B5%D0%BC.png)
-[<img src="http://www.google.com.au/images/nav_logo7.png">](http://google.com.au/)
+[<img src="[https://tadviser.ru/images/7/7a/Logo-Ansible-%D0%94%D1%8E%D1%80%D1%85%D0%B5%D0%BC.png">](https://tadviser.ru/)
 
