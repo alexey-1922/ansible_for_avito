@@ -6,3 +6,4 @@
 
 ![image](https://tadviser.ru/images/7/7a/Logo-Ansible-%D0%94%D1%8E%D1%80%D1%85%D0%B5%D0%BC.png)
 
+![image](Logo-Ansible-Дюрхем.png)
